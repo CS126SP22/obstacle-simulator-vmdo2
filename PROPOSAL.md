@@ -8,6 +8,6 @@ Week 3--> Implement power-ups and difficulty level over time. Player should be a
 Week 4--> Make the game asethetically pleasing. Add power-up counters, game details, etc. Add extra features to the game.
 
 **Extra "stretch goals"**
-Add different "avatars" for the player
-Add different images instead of having incoming objects as blocks
-Add asesthetic effects to the player once a power-up is obtained
+Add different "avatars" for the player.
+Add different images instead of having incoming objects as blocks.
+Add asesthetic effects to the player once a power-up is obtained.
