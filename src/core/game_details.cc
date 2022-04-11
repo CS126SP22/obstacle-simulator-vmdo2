@@ -1,4 +1,4 @@
-#include <core/naive_model.h>
+#include <core/game_details.h>
 #include <fstream>
 #include <iostream>
 #include <cassert>

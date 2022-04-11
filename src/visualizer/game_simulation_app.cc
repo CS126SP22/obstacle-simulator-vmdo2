@@ -1,52 +1,37 @@
-#include <visualizer/naive_bayes_app.h>
+#include <visualizer/game_simulation_app.h>
 
-namespace naivebayes {
+namespace game {
 
 namespace visualizer {
 
-NaiveBayesApp::NaiveBayesApp()
-    : sketchpad_(glm::vec2(kMargin, kMargin), kImageDimension,
-                 kWindowSize - 2 * kMargin) {
-  ci::app::setWindowSize((int) kWindowSize, (int) kWindowSize);
+GameSimulationApp::GameSimulationApp() {
+    ci::app::setWindowSize(kWindowSize, kWindowSize);
 }
 
-void NaiveBayesApp::draw() {
-  ci::Color8u background_color(255, 246, 148);  // light yellow
-  ci::gl::clear(background_color);
+void GameSimulationApp::draw() {
+    ci::Color background_color("black");
+    ci::gl::clear(background_color);
 
-  sketchpad_.Draw();
-
-  ci::gl::drawStringCentered(
-      "Press Delete to clear the sketchpad. Press Enter to make a prediction.",
-      glm::vec2(kWindowSize / 2, kMargin / 2), ci::Color("black"));
-
-  ci::gl::drawStringCentered(
-      "Prediction: " + std::to_string(current_prediction_),
-      glm::vec2(kWindowSize / 2, kWindowSize - kMargin / 2), ci::Color("blue"));
+    //game_container_.Display();
 }
 
-void NaiveBayesApp::mouseDown(ci::app::MouseEvent event) {
-  sketchpad_.HandleBrush(event.getPos());
+void GameSimulationApp::update() {
+    //game_container_.AdvanceOneFrame();
 }
 
-void NaiveBayesApp::mouseDrag(ci::app::MouseEvent event) {
-  sketchpad_.HandleBrush(event.getPos());
-}
-
-void NaiveBayesApp::keyDown(ci::app::KeyEvent event) {
+void GameSimulationApp::keyDown(ci::app::KeyEvent event) {
   switch (event.getCode()) {
     case ci::app::KeyEvent::KEY_RETURN:
-      current_prediction_ = trained_naive_model_.CompareLikelihood(sketchpad_.getPixels());
       // ask your classifier to classify the image that's currently drawn on the
       // sketchpad and update current_prediction_
       break;
 
     case ci::app::KeyEvent::KEY_DELETE:
-      sketchpad_.Clear();
+      //game_container_.Clear();
       break;
   }
 }
 
-}  // namespace visualizer
+}  // namespace GameSimulation
 
 }  // namespace naivebayes
