@@ -16,9 +16,7 @@ namespace game {
         ci::gl::drawStrokedRect(ci::Rectf(box_left_dimension_, box_right_dimension_));
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
             ci::gl::color(ci::Color(obstacles_[i].color_));
-            glm::vec2 left = obstacles_[i].position_ - glm::vec2(obstacles_[i].width_ / 2, obstacles_[i].height_ / 2);
-            glm::vec2 right =  obstacles_[i].position_ + glm::vec2(obstacles_[i].width_ / 2, obstacles_[i].height_ / 2);
-            ci::gl::drawSolidRect(ci::Rectf(left, right));
+            ci::gl::drawSolidRect(ci::Rectf(obstacles_[i].bottom_left_corner_, obstacles_[i].upper_right_corner_));
         }
     }
 
@@ -30,16 +28,16 @@ namespace game {
 
     std::vector<GameContainer::Obstacle> GameContainer::GenerateRandomObstacles() {
         std::vector<GameContainer::Obstacle> obstacles;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             GameContainer::Obstacle obstacle;
             obstacle.width_ = 10 + (rand() % 20);
             obstacle.height_ = 20 + (rand() % 50);
             int position_x =
-                    int(box_left_dimension_.x + obstacle.width_) + (rand() % int(box_right_dimension_.x - obstacle.width_));
-            int position_y = int(box_left_dimension_.y + obstacle.height_) +
-                             (rand() % int(box_right_dimension_.y - obstacle.height_));
-            obstacle.position_ = glm::vec2(position_x, position_y);
-            obstacle.velocity_ = glm::vec2(0, 1 + (rand() % 10));
+                    int(box_left_dimension_.x + (obstacle.width_ / 2)) + (rand() % int(box_right_dimension_.x - (obstacle.width_ / 2)));
+            obstacle.position_ = glm::vec2(position_x, 100 - obstacle.height_ / 2);
+            obstacle.bottom_left_corner_ = glm::vec2(obstacle.position_.x - obstacle.width_ / 2, obstacle.position_.y + obstacle.height_ / 2);
+            obstacle.upper_right_corner_ = glm::vec2(obstacle.position_.x + obstacle.width_ / 2, obstacle.position_.y - obstacle.height_ / 2);
+            obstacle.velocity_ = glm::vec2(0, 1 + (rand() % 5));
             obstacles.push_back(obstacle);
         }
         return obstacles;

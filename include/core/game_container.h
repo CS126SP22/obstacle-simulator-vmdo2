@@ -16,6 +16,8 @@ class GameContainer {
         public:
             char* color_;
             glm::vec2 position_;
+            glm::vec2 bottom_left_corner_;
+            glm::vec2 upper_right_corner_;
             glm::vec2 velocity_;
             int height_;
             int width_;
