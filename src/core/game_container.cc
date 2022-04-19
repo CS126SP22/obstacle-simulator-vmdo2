@@ -14,6 +14,12 @@ namespace game {
         ci::gl::drawSolidCircle(game_details_.player_position_, game_details_.player_radius_);
         ci::gl::color(ci::Color("white"));
         ci::gl::drawStrokedRect(ci::Rectf(box_left_dimension_, box_right_dimension_));
+        for (unsigned int i = 0; i < obstacles_.size(); i++) {
+            ci::gl::color(ci::Color(obstacles_[i].color_));
+            glm::vec2 left = obstacles_[i].position_ - glm::vec2(obstacles_[i].width_ / 2, obstacles_[i].height_ / 2);
+            glm::vec2 right =  obstacles_[i].position_ + glm::vec2(obstacles_[i].width_ / 2, obstacles_[i].height_ / 2);
+            ci::gl::drawSolidRect(ci::Rectf(left, right));
+        }
     }
 
     void GameContainer::AdvanceOneFrame() {
@@ -26,8 +32,8 @@ namespace game {
         std::vector<GameContainer::Obstacle> obstacles;
         for (int i = 0; i < 30; i++) {
             GameContainer::Obstacle obstacle;
-            obstacle.width_ = 5 + (rand() % 10);
-            obstacle.height_ = 5 + (rand() % 20);
+            obstacle.width_ = 10 + (rand() % 20);
+            obstacle.height_ = 20 + (rand() % 50);
             int position_x =
                     int(box_left_dimension_.x + obstacle.width_) + (rand() % int(box_right_dimension_.x - obstacle.width_));
             int position_y = int(box_left_dimension_.y + obstacle.height_) +
