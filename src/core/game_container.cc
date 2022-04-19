@@ -1,7 +1,7 @@
 #include <core/game_container.h>
 #include <fstream>
-#include <iostream>
-#include <cassert>
+#include <ctime>
+#include <cstdlib>
 
 namespace game {
 
@@ -16,6 +16,8 @@ namespace game {
         ci::gl::drawStrokedRect(ci::Rectf(box_left_dimension_, box_right_dimension_));
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
             ci::gl::color(ci::Color(obstacles_[i].color_));
+            obstacles_[i].bottom_left_corner_ = glm::vec2(obstacles_[i].position_.x - (obstacles_[i].width_ / 2), obstacles_[i].position_.y + (obstacles_[i].height_ / 2));
+            obstacles_[i].upper_right_corner_ = glm::vec2(obstacles_[i].position_.x + (obstacles_[i].width_ / 2), obstacles_[i].position_.y - (obstacles_[i].height_ / 2));
             ci::gl::drawSolidRect(ci::Rectf(obstacles_[i].bottom_left_corner_, obstacles_[i].upper_right_corner_));
         }
     }
@@ -27,17 +29,18 @@ namespace game {
     }
 
     std::vector<GameContainer::Obstacle> GameContainer::GenerateRandomObstacles() {
+        srand (static_cast <unsigned> (time(0)));
         std::vector<GameContainer::Obstacle> obstacles;
         for (int i = 0; i < 10; i++) {
             GameContainer::Obstacle obstacle;
-            obstacle.width_ = 10 + (rand() % 20);
-            obstacle.height_ = 20 + (rand() % 50);
-            int position_x =
-                    int(box_left_dimension_.x + (obstacle.width_ / 2)) + (rand() % int(box_right_dimension_.x - (obstacle.width_ / 2)));
+            obstacle.width_ = 10 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(10)));
+            obstacle.height_ = 20 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(30)));
+            float position_x = box_left_dimension_.x + (obstacle.width_ / 2) + static_cast <float> (rand()) /
+                    ( static_cast <float> (RAND_MAX/(box_right_dimension_.x - (obstacle.width_ / 2)
+                    - (box_left_dimension_.x + (obstacle.width_ / 2)))));
+
             obstacle.position_ = glm::vec2(position_x, 100 - obstacle.height_ / 2);
-            obstacle.bottom_left_corner_ = glm::vec2(obstacle.position_.x - obstacle.width_ / 2, obstacle.position_.y + obstacle.height_ / 2);
-            obstacle.upper_right_corner_ = glm::vec2(obstacle.position_.x + obstacle.width_ / 2, obstacle.position_.y - obstacle.height_ / 2);
-            obstacle.velocity_ = glm::vec2(0, 1 + (rand() % 5));
+            obstacle.velocity_ = glm::vec2(0, 1 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(4))));
             obstacles.push_back(obstacle);
         }
         return obstacles;

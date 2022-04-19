@@ -31,6 +31,7 @@ class GameSimulationApp : public ci::app::App {
 
  private:
   GameContainer game_container_;
+  bool start_game_ = false;
 
 };
 

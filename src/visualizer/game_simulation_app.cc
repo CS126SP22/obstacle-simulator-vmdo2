@@ -16,14 +16,17 @@ void GameSimulationApp::draw() {
 }
 
 void GameSimulationApp::update() {
-    game_container_.AdvanceOneFrame();
+    if (start_game_) {
+        game_container_.AdvanceOneFrame();
+    }
 }
 
 void GameSimulationApp::keyDown(ci::app::KeyEvent event) {
   switch (event.getCode()) {
-    case ci::app::KeyEvent::KEY_RETURN:
+    case ci::app::KeyEvent::KEY_SPACE:
       // ask your classifier to classify the image that's currently drawn on the
       // sketchpad and update current_prediction_
+      start_game_ = !start_game_;
       break;
 
     case ci::app::KeyEvent::KEY_DELETE:

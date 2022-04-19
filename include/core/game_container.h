@@ -19,12 +19,12 @@ class GameContainer {
             glm::vec2 bottom_left_corner_;
             glm::vec2 upper_right_corner_;
             glm::vec2 velocity_;
-            int height_;
-            int width_;
+            float height_;
+            float width_;
 
             Obstacle();
 
-            Obstacle(std::string color, glm::vec2 position, glm::vec2 velocity, int height, int width);
+            Obstacle(std::string color, glm::vec2 position, glm::vec2 velocity, float height, float width);
 
         };
     GameContainer();
