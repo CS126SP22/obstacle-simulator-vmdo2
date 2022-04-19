@@ -17,14 +17,16 @@ class GameContainer {
             char* color_;
             glm::vec2 position_;
             glm::vec2 velocity_;
-            float height_;
-            float width_;
+            int height_;
+            int width_;
 
             Obstacle();
 
-            Obstacle(std::string color, glm::vec2 position, glm::vec2 velocity, float height, float width);
+            Obstacle(std::string color, glm::vec2 position, glm::vec2 velocity, int height, int width);
 
         };
+    GameContainer();
+
     /**
     * Displays the container walls and the current positions of the obtsacles and the player.
     */
@@ -41,12 +43,17 @@ class GameContainer {
      */
     std::vector<Obstacle> GenerateRandomObstacles();
 
-    GameDetails getGameDetails();
+    GameDetails getGameDetails() {
+        return GameDetails();
+    }
 
     void setGameDetails(GameDetails game_details);
 
-    std::vector<Obstacle> getObstacles();
- private:
+    std::vector<Obstacle> getObstacles() {
+        return obstacles_;
+    }
+
+private:
     GameDetails game_details_;
     std::vector<Obstacle> obstacles_;
 };

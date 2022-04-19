@@ -30,7 +30,7 @@ class GameSimulationApp : public ci::app::App {
   const size_t kImageDimension = 28;
 
  private:
-  //GameContainer game_container_;
+  GameContainer game_container_;
 
 };
 

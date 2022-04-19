@@ -12,11 +12,11 @@ void GameSimulationApp::draw() {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
 
-    //game_container_.Display();
+    game_container_.Display();
 }
 
 void GameSimulationApp::update() {
-    //game_container_.AdvanceOneFrame();
+    game_container_.AdvanceOneFrame();
 }
 
 void GameSimulationApp::keyDown(ci::app::KeyEvent event) {
