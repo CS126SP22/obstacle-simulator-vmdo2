@@ -24,6 +24,7 @@ TEST_CASE("Obstacles advance by one frame") {
     REQUIRE(game_container.getGameDetails().player_position_ == game_details.player_position_ + game_details.player_velocity_);
     REQUIRE(game_container.getObstacles()[0].position_ == obstacle_1.position_ + obstacle_1.velocity_);
 }
+
 /*
 
 TEST_CASE("Game ends when obstacle collides with player") {
