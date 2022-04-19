@@ -26,6 +26,10 @@ namespace game {
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
             obstacles_[i].position_ += obstacles_[i].velocity_;
         }
+        game_details_.player_position_ += game_details_.player_velocity_;
+        if (PlayerCollision()) {
+            game_details_.game_over_ = true;
+        }
     }
 
     std::vector<GameContainer::Obstacle> GameContainer::GenerateRandomObstacles() {
@@ -48,6 +52,41 @@ namespace game {
 
     void GameContainer::setGameDetails(GameDetails game_details) {
         game_details_ = game_details;
+    }
+
+    bool GameContainer::PlayerCollision() {
+        for (unsigned int i = 0; i < obstacles_.size(); i++) {
+            if (obstacles_[i].position_ == game_details_.player_position_) {
+                return true;
+            }
+            if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x - game_details_.player_radius_
+            && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x - game_details_.player_radius_
+            && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y - game_details_.player_radius_
+            && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y - game_details_.player_radius_) {
+                return true;
+            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x - game_details_.player_radius_
+                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x - game_details_.player_radius_
+                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y + game_details_.player_radius_
+                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y + game_details_.player_radius_) {
+                return true;
+            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x + game_details_.player_radius_
+                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x + game_details_.player_radius_
+                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y - game_details_.player_radius_
+                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y - game_details_.player_radius_) {
+                return true;
+            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x + game_details_.player_radius_
+                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x + game_details_.player_radius_
+                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y + game_details_.player_radius_
+                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y + game_details_.player_radius_) {
+                return true;
+            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x
+                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x
+                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y
+                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     GameContainer::Obstacle::Obstacle() {

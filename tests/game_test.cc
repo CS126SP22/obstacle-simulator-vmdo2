@@ -25,8 +25,6 @@ TEST_CASE("Obstacles advance by one frame") {
     REQUIRE(game_container.getObstacles()[0].position_ == obstacle_1.position_ + obstacle_1.velocity_);
 }
 
-/*
-
 TEST_CASE("Game ends when obstacle collides with player") {
     GameContainer game_container = GameContainer();
     GameContainer::Obstacle obstacle_1 = game_container.getObstacles()[0];
@@ -38,7 +36,6 @@ TEST_CASE("Game ends when obstacle collides with player") {
     }
     REQUIRE(game_container.getGameDetails().game_over_);
 }
-*/
 
 /*
 

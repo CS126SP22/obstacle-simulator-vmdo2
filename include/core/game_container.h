@@ -39,6 +39,8 @@ class GameContainer {
      */
     void AdvanceOneFrame();
 
+    bool PlayerCollision();
+
     /**
      * This function randomly creates an Obstacle
      * @return std::vector<Obstacle>
