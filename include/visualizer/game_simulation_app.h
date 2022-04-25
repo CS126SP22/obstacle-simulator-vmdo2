@@ -31,7 +31,7 @@ class GameSimulationApp : public ci::app::App {
 
  private:
   GameContainer game_container_;
-  int current_prediction_ = -1;
+  bool start_game_ = false;
 
 };
 
