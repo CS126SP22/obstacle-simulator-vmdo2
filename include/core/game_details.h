@@ -16,7 +16,7 @@ public:
 
     GameDetails();
 
-    GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity, glm::vec2 player_acceleration);
+    GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity, glm::vec2 player_acceleration, bool game_over);
 
 
 private:

@@ -21,6 +21,7 @@ void GameSimulationApp::update() {
     }
     if (game_container_.getGameDetails().game_over_) {
         start_game_ = false;
+        game_container_.DisplayGameOver();
     }
 }
 

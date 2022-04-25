@@ -41,6 +41,8 @@ class GameContainer {
 
     bool PlayerCollision();
 
+    void DisplayGameOver();
+
     /**
      * This function randomly creates an Obstacle
      * @return std::vector<Obstacle>
@@ -48,7 +50,7 @@ class GameContainer {
     std::vector<Obstacle> GenerateRandomObstacles();
 
     GameDetails getGameDetails() {
-        return GameDetails();
+        return game_details_;
     }
 
     void setGameDetails(GameDetails game_details);

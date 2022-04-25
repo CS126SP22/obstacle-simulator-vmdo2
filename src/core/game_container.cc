@@ -50,39 +50,16 @@ namespace game {
         return obstacles;
     }
 
-    void GameContainer::setGameDetails(GameDetails game_details) {
-        game_details_ = game_details;
-    }
-
     bool GameContainer::PlayerCollision() {
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
-            if (obstacles_[i].position_ == game_details_.player_position_) {
-                return true;
-            }
-            if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x - game_details_.player_radius_
-            && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x - game_details_.player_radius_
-            && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y - game_details_.player_radius_
-            && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y - game_details_.player_radius_) {
-                return true;
-            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x - game_details_.player_radius_
-                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x - game_details_.player_radius_
-                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y + game_details_.player_radius_
-                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y + game_details_.player_radius_) {
-                return true;
-            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x + game_details_.player_radius_
-                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x + game_details_.player_radius_
-                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y - game_details_.player_radius_
-                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y - game_details_.player_radius_) {
-                return true;
-            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x + game_details_.player_radius_
-                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x + game_details_.player_radius_
-                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y + game_details_.player_radius_
-                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y + game_details_.player_radius_) {
-                return true;
-            } else if (obstacles_[i].bottom_left_corner_.x <= game_details_.player_position_.x
-                       && obstacles_[i].upper_right_corner_.x >= game_details_.player_position_.x
-                       && obstacles_[i].bottom_left_corner_.y >= game_details_.player_position_.y
-                       && obstacles_[i].upper_right_corner_.y <= game_details_.player_position_.y) {
+            //https://www.geeksforgeeks.org/check-if-any-point-overlaps-the-given-circle-and-rectangle/
+            float x_nearest = std::max(obstacles_[i].bottom_left_corner_.x,
+                                       std::min(game_details_.player_position_.x, obstacles_[i].upper_right_corner_.x));
+            float y_nearest = std::max(obstacles_[i].bottom_left_corner_.y,
+                                       std::min(game_details_.player_position_.y, obstacles_[i].upper_right_corner_.y));
+            float x_difference = x_nearest - game_details_.player_position_.x;
+            float y_difference = y_nearest - game_details_.player_position_.y;
+            if ((std::pow(x_difference, 2) + std::pow(y_difference, 2)) <= std::pow(game_details_.player_radius_, 2)) {
                 return true;
             }
         }
@@ -95,5 +72,16 @@ namespace game {
         glm::vec2 velocity_ = glm::vec2(0, 1);
         height_ = 10;
         width_ = 5;
+    }
+
+    void GameContainer::setGameDetails(GameDetails game_details) {
+        game_details_ = game_details;
+    }
+
+    void GameContainer::DisplayGameOver() {
+        //ci::TextLayout text;
+        //text.setFont();
+        ci::gl::color(ci::Color("orange"));
+        ci::gl::drawString("GAME OVER", glm::vec2(250, 100));
     }
 }  // namespace game
