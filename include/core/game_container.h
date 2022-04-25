@@ -43,6 +43,10 @@ class GameContainer {
 
     void DisplayGameOver();
 
+    bool NextLevel();
+
+    void WallCollision();
+
     /**
      * This function randomly creates an Obstacle
      * @return std::vector<Obstacle>
@@ -62,6 +66,7 @@ class GameContainer {
 private:
     GameDetails game_details_;
     std::vector<Obstacle> obstacles_;
+    int difficulty_level_ = 0;
 };
 
 }  // namespace game

@@ -24,11 +24,17 @@ namespace game {
 
     void GameContainer::AdvanceOneFrame() {
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
+            obstacles_[i].velocity_.y = obstacles_[i].velocity_.y * (1 + float(difficulty_level_ / 20));
             obstacles_[i].position_ += obstacles_[i].velocity_;
         }
         game_details_.player_position_ += game_details_.player_velocity_;
         if (PlayerCollision()) {
             game_details_.game_over_ = true;
+        }
+        WallCollision();
+        if (NextLevel()) {
+            obstacles_ = GenerateRandomObstacles();
+            difficulty_level_++;
         }
     }
 
@@ -55,11 +61,12 @@ namespace game {
             //https://www.geeksforgeeks.org/check-if-any-point-overlaps-the-given-circle-and-rectangle/
             float x_nearest = std::max(obstacles_[i].bottom_left_corner_.x,
                                        std::min(game_details_.player_position_.x, obstacles_[i].upper_right_corner_.x));
-            float y_nearest = std::max(obstacles_[i].bottom_left_corner_.y,
-                                       std::min(game_details_.player_position_.y, obstacles_[i].upper_right_corner_.y));
+            float y_nearest = std::max(obstacles_[i].upper_right_corner_.y,
+                                       std::min(game_details_.player_position_.y, obstacles_[i].bottom_left_corner_.y));
             float x_difference = x_nearest - game_details_.player_position_.x;
             float y_difference = y_nearest - game_details_.player_position_.y;
             if ((std::pow(x_difference, 2) + std::pow(y_difference, 2)) <= std::pow(game_details_.player_radius_, 2)) {
+                game_details_.game_over_ = true;
                 return true;
             }
         }
@@ -81,7 +88,23 @@ namespace game {
     void GameContainer::DisplayGameOver() {
         //ci::TextLayout text;
         //text.setFont();
-        ci::gl::color(ci::Color("orange"));
-        ci::gl::drawString("GAME OVER", glm::vec2(250, 100));
+        //ci::gl::color(ci::Color("orange"));
+        ci::gl::drawStringCentered("GAME OVER", glm::vec2(250, 100));
+    }
+
+    bool GameContainer::NextLevel() {
+        for (unsigned int i = 0; i < obstacles_.size(); i++) {
+            if (obstacles_[i].upper_right_corner_.y < box_right_dimension_.y) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void GameContainer::WallCollision() {
+        if (game_details_.player_position_[0] + game_details_.player_velocity_[0]  <= box_left_dimension_[0] && game_details_.player_velocity_[0] < 0 ||
+        game_details_.player_position_[0] + game_details_.player_velocity_[0] >= box_right_dimension_[0] && game_details_.player_velocity_[0] > 0) {
+            game_details_.player_velocity_[0] = game_details_.player_velocity_[0] * -1;
+        }
     }
 }  // namespace game
