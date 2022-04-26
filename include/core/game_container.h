@@ -51,32 +51,35 @@ class GameContainer {
     void AdvanceOneFrame();
 
     /**
-     *
-     * @return
+     * This function determines if there is an obstacle and player collision
+     * @return a boolean
      */
     bool PlayerCollision();
 
     /**
-     *
+     * This function displays the phrase "GAME OVER" if the player collided with an obstacle.
      */
     void DisplayGameOver();
 
     /**
-     *
-     * @return
+     * This function determines if all obstacles have been avoided in the level.
+     * @return a boolean
      */
     bool NextLevel();
 
     /**
-     *
+     * This function uses collision algorithm for when the player collides with the wall.
      */
     void WallCollision();
 
     /**
-     *
+     * This function assigns power-ups randomly (10% chance for a power to appear).
      */
     void AssignPowerUps();
 
+    /**
+     * This function determines if the player has obtained the power-up
+     */
     void ObtainPowerUp();
     /**
      * This function randomly creates an Obstacle

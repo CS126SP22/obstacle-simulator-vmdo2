@@ -18,7 +18,7 @@ namespace game {
             ci::gl::drawSolidCircle(game_details_.player_position_, game_details_.player_radius_);
         }
 
-        if (!power_up_.name_.empty()) {
+        if (power_up_.active_) {
             ci::gl::color(ci::Color(power_up_.color_.c_str()));
             ci::gl::drawSolidCircle(power_up_.position_, power_up_.radius_);
         }
@@ -50,16 +50,13 @@ namespace game {
         if (power_up_.obtained_) {
             time_++;
         }
-        if (!power_up_.active_ && !power_up_.obtained_) {
-            AssignPowerUps();
-        } else {
+        if (power_up_.active_) {
             power_up_.position_ += power_up_.velocity_;
             ObtainPowerUp();
         }
         if (NextLevel()) {
             obstacles_ = GenerateRandomObstacles();
-            PowerUp empty;
-            power_up_ = empty;
+            AssignPowerUps();
             difficulty_level_++;
         }
     }
@@ -91,7 +88,7 @@ namespace game {
                                        std::min(game_details_.player_position_.y, obstacles_[i].bottom_left_corner_.y));
             float x_difference = x_nearest - game_details_.player_position_.x;
             float y_difference = y_nearest - game_details_.player_position_.y;
-            if (power_up_.obtained_ && power_up_.name_ == "decrease size") {
+            if (power_up_.obtained_ && power_up_.name_ == "size decrease") {
                 if ((std::pow(x_difference, 2) + std::pow(y_difference, 2)) <=
                     std::pow(game_details_.player_radius_ * 0.5F, 2)) {
                     game_details_.game_over_ = true;
@@ -149,7 +146,8 @@ namespace game {
         if (power_up_probability % 1 == 0) {
             //choose random power up
             int power_up = 0 + rand() / (RAND_MAX/(3));
-            power_up_.name_ = game_details_.power_ups_[power_up];
+            //TODO: change index
+            power_up_.name_ = game_details_.power_ups_[1];
             float position_x = box_left_dimension_.x + (power_up_.radius_) + static_cast <float> (rand()) /
                                                                                ( static_cast <float> (RAND_MAX/(box_right_dimension_.x - (power_up_.radius_)
                                                                                                                 - (box_left_dimension_.x + (power_up_.radius_)))));
