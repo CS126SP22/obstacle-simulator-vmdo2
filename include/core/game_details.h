@@ -11,8 +11,8 @@ public:
     float player_radius_ = 10;
     glm::vec2 player_position_;
     glm::vec2 player_velocity_;
-    glm::vec2 player_acceleration_;
     bool game_over_ = false;
+    std::vector<std::string> power_ups_ = {"invincibility", "size decrease", "slow time"};
 
     GameDetails();
 

@@ -8,7 +8,6 @@ namespace game {
     GameDetails::GameDetails() {
         player_position_ = glm::vec2(250, 600 - player_radius_);
         player_velocity_ = glm::vec2(0, 0);
-        player_acceleration_ = glm::vec2(1, 0);
     }
 
     GameDetails::GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity,
@@ -16,7 +15,6 @@ namespace game {
         player_radius_ = player_radius;
         player_position_ = player_position;
         player_velocity_ = player_velocity;
-        player_acceleration_ = player_acceleration;
         game_over_ = game_over;
     }
 }  // namespace naivebayes
