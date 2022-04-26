@@ -35,7 +35,11 @@ namespace game {
     void GameContainer::AdvanceOneFrame() {
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
             obstacles_[i].velocity_.y = obstacles_[i].velocity_.y * (1 + float(difficulty_level_ / 20));
-            obstacles_[i].position_ += obstacles_[i].velocity_;
+            if (power_up_.obtained_ && power_up_.name_ == "slow time") {
+                obstacles_[i].position_ += obstacles_[i].velocity_ * 0.5F;
+            } else {
+                obstacles_[i].position_ += obstacles_[i].velocity_;
+            }
         }
         game_details_.player_position_ += game_details_.player_velocity_;
         if (PlayerCollision()) {
@@ -46,6 +50,9 @@ namespace game {
             time_ = 0;
             PowerUp empty;
             power_up_ = empty;
+            if (!power_up_.active_) {
+                AssignPowerUps();
+            }
         }
         if (power_up_.obtained_) {
             time_++;
@@ -56,7 +63,9 @@ namespace game {
         }
         if (NextLevel()) {
             obstacles_ = GenerateRandomObstacles();
-            AssignPowerUps();
+            if (!power_up_.active_) {
+                AssignPowerUps();
+            }
             difficulty_level_++;
         }
     }
@@ -80,6 +89,9 @@ namespace game {
     }
 
     bool GameContainer::PlayerCollision() {
+        if (power_up_.obtained_ && power_up_.name_ == "invincibility") {
+            return false;
+        }
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
             //https://www.geeksforgeeks.org/check-if-any-point-overlaps-the-given-circle-and-rectangle/
             float x_nearest = std::max(obstacles_[i].bottom_left_corner_.x,
@@ -125,11 +137,15 @@ namespace game {
     }
 
     bool GameContainer::NextLevel() {
+        if (power_up_.position_.y + power_up_.radius_ < box_right_dimension_.y && power_up_.active_) {
+            return false;
+        }
         for (unsigned int i = 0; i < obstacles_.size(); i++) {
             if (obstacles_[i].upper_right_corner_.y < box_right_dimension_.y) {
                 return false;
             }
         }
+        power_up_.active_ = false;
         return true;
     }
 
@@ -141,20 +157,20 @@ namespace game {
     }
 
     void GameContainer::AssignPowerUps() {
-        srand (static_cast <unsigned> (time(0)));
-        int power_up_probability = 1 + rand() / (RAND_MAX/(10));
+        srand (unsigned (time(nullptr)));
+        int power_up_probability = rand() % 11;
+        //TODO: Change MOD to 10
         if (power_up_probability % 1 == 0) {
             //choose random power up
-            int power_up = 0 + rand() / (RAND_MAX/(3));
-            //TODO: change index
-            power_up_.name_ = game_details_.power_ups_[1];
+            int power_up = rand() % 3;
+            //TODO:: make powers-ups to overwrite
+            power_up_.name_ = game_details_.power_ups_[power_up];
             float position_x = box_left_dimension_.x + (power_up_.radius_) + static_cast <float> (rand()) /
                                                                                ( static_cast <float> (RAND_MAX/(box_right_dimension_.x - (power_up_.radius_)
                                                                                                                 - (box_left_dimension_.x + (power_up_.radius_)))));
 
             power_up_.position_ = glm::vec2(position_x, 100 - power_up_.radius_ / 2);
-            power_up_.velocity_ = glm::vec2(0, 1 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(3))));
-            /*
+            power_up_.velocity_ = glm::vec2(0, 3 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(8))));
             if (power_up == 0) {
                 power_up_.color_ = "pink";
             } else if (power_up == 1) {
@@ -162,8 +178,6 @@ namespace game {
             } else if (power_up == 2) {
                 power_up_.color_ = "green";
             }
-            */
-            power_up_.color_ = "purple";
             power_up_.active_ = true;
         }
     }
