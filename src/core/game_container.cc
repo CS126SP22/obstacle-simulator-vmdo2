@@ -194,7 +194,7 @@ namespace game {
         ci::TextLayout text_layout;
         text_layout.setFont(font);
         //ci::gl::color(ci::Color("orange"));
-        ci::gl::drawStringCentered(font.getFullName(), glm::vec2(250, 150));
+        ci::gl::drawStringCentered(font.getFullName(), glm::vec2(250, 150), "white",ci::Font("GAME OVER", 30));
     }
 
     void GameContainer::DisplayGameFeatures() {
@@ -202,15 +202,15 @@ namespace game {
         if (power_up_.obtained_) {
             ci::gl::color(ci::Color(power_up_.color_.c_str()));
             ci::gl::drawSolidRect(ci::Rectf(glm::vec2(500, 200), glm::vec2(520, 180)));
-            ci::gl::drawString("Power-up obtained: " + power_up_.name_, glm::vec2(530, 190));
+            ci::gl::drawString("Power-up obtained: " + power_up_.name_, glm::vec2(530, 185), "white",ci::Font("", 20));
         } else {
             ci::gl::color(ci::Color(power_up_.color_.c_str()));
             ci::gl::drawStrokedRect(ci::Rectf(glm::vec2(500, 200), glm::vec2(520, 180)));
-            ci::gl::drawString("Power-up available: " + power_up_.name_, glm::vec2(530, 190));
+            ci::gl::drawString("Power-up available: " + power_up_.name_, glm::vec2(530, 185), "white",ci::Font("", 20));
         }
         //display current time limit
-        ci::gl::drawString("Time left until no power-up: " + std::to_string(kTimeLimit - time_), glm::vec2(500, 250));
+        ci::gl::drawString("Time left until no power-up: " + std::to_string(kTimeLimit - time_), glm::vec2(500, 250), "white",ci::Font("", 20));
         //display current level
-        ci::gl::drawString("Current level: " + std::to_string(difficulty_level_), glm::vec2(500, 300));
+        ci::gl::drawString("Current level: " + std::to_string(difficulty_level_), glm::vec2(500, 300), "white",ci::Font("", 20));
     }
 }  // namespace game
