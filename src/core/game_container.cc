@@ -30,6 +30,7 @@ namespace game {
             obstacles_[i].upper_right_corner_ = glm::vec2(obstacles_[i].position_.x + (obstacles_[i].width_ / 2), obstacles_[i].position_.y - (obstacles_[i].height_ / 2));
             ci::gl::drawSolidRect(ci::Rectf(obstacles_[i].bottom_left_corner_, obstacles_[i].upper_right_corner_));
         }
+        DisplayGameFeatures();
     }
 
     void GameContainer::AdvanceOneFrame() {
@@ -50,9 +51,6 @@ namespace game {
             time_ = 0;
             PowerUp empty;
             power_up_ = empty;
-            if (!power_up_.active_) {
-                AssignPowerUps();
-            }
         }
         if (power_up_.obtained_) {
             time_++;
@@ -63,7 +61,7 @@ namespace game {
         }
         if (NextLevel()) {
             obstacles_ = GenerateRandomObstacles();
-            if (!power_up_.active_) {
+            if (!power_up_.active_ && time_ == 0) {
                 AssignPowerUps();
             }
             difficulty_level_++;
@@ -129,12 +127,6 @@ namespace game {
         game_details_ = game_details;
     }
 
-    void GameContainer::DisplayGameOver() {
-        //ci::TextLayout text;
-        //text.setFont();
-        //ci::gl::color(ci::Color("orange"));
-        ci::gl::drawStringCentered("GAME OVER", glm::vec2(250, 100));
-    }
 
     bool GameContainer::NextLevel() {
         if (power_up_.position_.y + power_up_.radius_ < box_right_dimension_.y && power_up_.active_) {
@@ -195,5 +187,30 @@ namespace game {
             power_up_.active_ = false;
             power_up_.obtained_ = true;
         }
+    }
+
+    void GameContainer::DisplayGameOver() {
+        ci::Font font = ci::Font("GAME OVER", 20);
+        ci::TextLayout text_layout;
+        text_layout.setFont(font);
+        //ci::gl::color(ci::Color("orange"));
+        ci::gl::drawStringCentered(font.getFullName(), glm::vec2(250, 150));
+    }
+
+    void GameContainer::DisplayGameFeatures() {
+        //display current powerup
+        if (power_up_.obtained_) {
+            ci::gl::color(ci::Color(power_up_.color_.c_str()));
+            ci::gl::drawSolidRect(ci::Rectf(glm::vec2(500, 200), glm::vec2(520, 180)));
+            ci::gl::drawString("Power-up obtained: " + power_up_.name_, glm::vec2(530, 190));
+        } else {
+            ci::gl::color(ci::Color(power_up_.color_.c_str()));
+            ci::gl::drawStrokedRect(ci::Rectf(glm::vec2(500, 200), glm::vec2(520, 180)));
+            ci::gl::drawString("Power-up available: " + power_up_.name_, glm::vec2(530, 190));
+        }
+        //display current time limit
+        ci::gl::drawString("Time left until no power-up: " + std::to_string(kTimeLimit - time_), glm::vec2(500, 250));
+        //display current level
+        ci::gl::drawString("Current level: " + std::to_string(difficulty_level_), glm::vec2(500, 300));
     }
 }  // namespace game

@@ -85,6 +85,12 @@ class GameContainer {
      * This function randomly creates an Obstacle
      * @return std::vector<Obstacle>
      */
+
+    /**
+     * This function displays the current power-ups, time, etc
+     */
+    void DisplayGameFeatures();
+
     std::vector<Obstacle> GenerateRandomObstacles();
 
     GameDetails getGameDetails() {

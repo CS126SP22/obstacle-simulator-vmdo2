@@ -13,6 +13,9 @@ void GameSimulationApp::draw() {
     ci::gl::clear(background_color);
 
     game_container_.Display();
+    if (game_container_.getGameDetails().game_over_) {
+        game_container_.DisplayGameOver();
+    }
 }
 
 void GameSimulationApp::update() {
