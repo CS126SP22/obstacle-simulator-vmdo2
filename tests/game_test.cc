@@ -40,17 +40,17 @@ TEST_CASE("Game detects when obstacle collides with player") {
     GameContainer game_container = GameContainer();
     GameContainer::Obstacle obstacle_1 = game_container.getObstacles()[0];
     game::GameDetails game_details = game_container.getGameDetails();
-    game_details.player_position_ = obstacle_1.position_;
+    game_details.player_position_.x = obstacle_1.position_.x;
     game_container.setGameDetails(game_details);
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 500; i++) {
         game_container.AdvanceOneFrame();
+        if (game_container.PlayerCollision()) {
+            REQUIRE(1 > 0);
+            break;
+        }
     }
     REQUIRE(game_container.getGameDetails().game_over_ == true);
 }
 
-/*
-
-TEST_CASE("Left and right movement for player is functional") {
-    GameContainer game_container = GameContainer();
+TEST_CASE("Player acquires power-up") {
 }
-*/

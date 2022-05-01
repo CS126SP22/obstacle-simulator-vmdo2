@@ -16,14 +16,7 @@ public:
 
     GameDetails();
 
-    GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity, glm::vec2 player_acceleration, bool game_over);
-
-
-private:
-    bool invincibility_ = false;
-    bool slow_time_ = false;
-    bool decrease_size = false;
-    int static const kAbilityTime = 5;
+    GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity, bool game_over);
 
 };
 

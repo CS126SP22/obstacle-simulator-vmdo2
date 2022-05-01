@@ -29,15 +29,15 @@ class GameContainer {
         };
 
     struct PowerUp {
-    public:
-        glm::vec2 position_;
-        glm::vec2 velocity_;
-        float radius_ = 10;
-        std::string color_;
-        std::string name_;
-        bool active_ = false;
-        bool obtained_ = false;
-    };
+        public:
+            glm::vec2 position_;
+            glm::vec2 velocity_;
+            float radius_ = 10;
+            std::string color_;
+            std::string name_;
+            bool active_ = false;
+            bool obtained_ = false;
+        };
     GameContainer();
 
     /**
@@ -46,12 +46,12 @@ class GameContainer {
     void Display();
 
     /**
-     * Updates the positions and velocities of all obstacles and the player
+     * Updates the positions and velocities of all obstacles and the player.
      */
     void AdvanceOneFrame();
 
     /**
-     * This function determines if there is an obstacle and player collision
+     * This function determines if there is an obstacle and player collision.
      * @return a boolean
      */
     bool PlayerCollision();
@@ -78,18 +78,23 @@ class GameContainer {
     void AssignPowerUps();
 
     /**
-     * This function determines if the player has obtained the power-up
+     * This function determines if the player has obtained the power-up.
      */
     void ObtainPowerUp();
     /**
-     * This function randomly creates an Obstacle
+     * This function randomly creates an Obstacle.
      * @return std::vector<Obstacle>
      */
 
     /**
-     * This function displays the current power-ups, time, etc
+     * This function displays the current power-ups, time, etc.
      */
     void DisplayGameFeatures();
+
+    /**
+     * This function exists to simply make the code in AdvanceOneFrame() look cleaner.
+     */
+    void AdvanceFrameHelper();
 
     std::vector<Obstacle> GenerateRandomObstacles();
 

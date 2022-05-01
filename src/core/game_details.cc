@@ -10,8 +10,7 @@ namespace game {
         player_velocity_ = glm::vec2(0, 0);
     }
 
-    GameDetails::GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity,
-                             glm::vec2 player_acceleration, bool game_over) {
+    GameDetails::GameDetails(float player_radius, glm::vec2 player_position, glm::vec2 player_velocity, bool game_over) {
         player_radius_ = player_radius;
         player_position_ = player_position;
         player_velocity_ = player_velocity;
