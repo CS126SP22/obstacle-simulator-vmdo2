@@ -51,6 +51,11 @@ class GameContainer {
     void AdvanceOneFrame();
 
     /**
+     * This function assigns the dimensions of an obstacle. Mainly used by test cases.
+     */
+    void AssignObstacleDimensions();
+
+    /**
      * This function determines if there is an obstacle and player collision.
      * @return a boolean
      */
@@ -103,6 +108,12 @@ class GameContainer {
     }
 
     void setGameDetails(GameDetails game_details);
+
+    PowerUp getPowerUp() {
+        return power_up_;
+    }
+
+    void setPowerUp(PowerUp power_up);
 
     std::vector<Obstacle> getObstacles() {
         return obstacles_;

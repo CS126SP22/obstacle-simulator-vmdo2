@@ -43,9 +43,9 @@ TEST_CASE("Game detects when obstacle collides with player") {
     game_details.player_position_.x = obstacle_1.position_.x;
     game_container.setGameDetails(game_details);
     for (int i = 0; i < 500; i++) {
+        game_container.AssignObstacleDimensions();
         game_container.AdvanceOneFrame();
         if (game_container.PlayerCollision()) {
-            REQUIRE(1 > 0);
             break;
         }
     }
@@ -53,4 +53,21 @@ TEST_CASE("Game detects when obstacle collides with player") {
 }
 
 TEST_CASE("Player acquires power-up") {
+    GameContainer game_container = GameContainer();
+    game_container.AssignPowerUps();
+    GameContainer::PowerUp power_up = game_container.getPowerUp();
+    power_up.active_ = true;
+    game_container.setPowerUp(power_up);
+    game::GameDetails game_details = game_container.getGameDetails();
+    game_details.player_position_.x = game_container.getPowerUp().position_.x;
+    game_container.setGameDetails(game_details);
+    for (int i = 0; i < 500; i++) {
+        game_container.AdvanceOneFrame();
+        if (game_container.getPowerUp().obtained_) {
+            break;
+        }
+    }
+    REQUIRE(game_container.getPowerUp().obtained_);
+    REQUIRE(!game_container.getPowerUp().color_.empty());
+    REQUIRE(!game_container.getPowerUp().name_.empty());
 }

@@ -211,8 +211,6 @@ namespace game {
     }
 
     void GameContainer::AdvanceFrameHelper() {
-        WallCollision();
-
         //Check if power-up has expired.
         if (time_ >= kTimeLimit) {
             time_ = 0;
@@ -237,5 +235,16 @@ namespace game {
             }
             difficulty_level_++;
         }
+    }
+
+    void GameContainer::AssignObstacleDimensions() {
+        for (unsigned int i = 0; i < obstacles_.size(); i++) {
+            obstacles_[i].bottom_left_corner_ = glm::vec2(obstacles_[i].position_.x - (obstacles_[i].width_ / 2), obstacles_[i].position_.y + (obstacles_[i].height_ / 2));
+            obstacles_[i].upper_right_corner_ = glm::vec2(obstacles_[i].position_.x + (obstacles_[i].width_ / 2), obstacles_[i].position_.y - (obstacles_[i].height_ / 2));
+        }
+    }
+
+    void GameContainer::setPowerUp(PowerUp power_up) {
+        power_up_ = power_up;
     }
 }  // namespace game
