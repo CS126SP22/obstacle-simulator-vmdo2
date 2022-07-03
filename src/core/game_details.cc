@@ -16,4 +16,4 @@ namespace game {
         player_velocity_ = player_velocity;
         game_over_ = game_over;
     }
-}  // namespace naivebayes
+}  // namespace game

@@ -23,11 +23,7 @@ class GameSimulationApp : public ci::app::App {
   void draw();
 
   void update();
-  // TODO: Delete this comment. Feel free to play around with these variables
-  // provided that you can see the entire UI on your screen.
   const int kWindowSize = 875;
-  const int kMargin = 100;
-  const size_t kImageDimension = 28;
 
  private:
   GameContainer game_container_;
@@ -37,4 +33,4 @@ class GameSimulationApp : public ci::app::App {
 
 }  // namespace visualizer
 
-}  // namespace naivebayes
+}  // namespace game
